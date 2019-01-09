@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Custom Elements & Web Components</title>
+
+	<meta name="description" content="A talk about Custom Elements">
+	<meta name="author" content="Paul Shannon">
+
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
+	<link rel="stylesheet" href="node_modules/reveal.js/css/theme/sky.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
+	<link rel="stylesheet" href="resources/main.css">
+
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'node_modules/reveal.js/css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+
+<div class="reveal">
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+		<section>
+			<h2>Web Components: Custom Elements</h2>
+		</section>
+
+		<section>
+			<h2>Hello!</h2>
+
+			<div class="two-column">
+				<div>
+					<h3>Paul Shannon</h3>
+					<img src="assets/images/sitepen.png" class="removeFormatting">
+				</div>
+				<div>
+					<ul>
+						<li>Sr Engineer @ SitePen</li>
+						<li>Talkscript Podcast</li>
+						<li>Phoenix TypeScript</li>
+						<li>Committer: Dojo, Intern</li>
+						<li class="github no-style"><a href="https://github.com/devpaul">devpaul</a></li>
+						<li class="twitter no-style"><a href="https://twitter.com/developerPaul">@developerPaul</a></li>
+					</ul>
+				</div>
+			</div>
+			<aside class="notes">
+				TODO add images to intern, podcast, phxts, github, twitter
+			</aside>
+		</section>
+
+		<section>
+			<h3>What are <b>Web Components</b>?</h3>
+		</section>
+
+		<section>
+			<p><b>Web Components</b> are a set of technologies that allow for custom, native HTML elements</p>
+
+			<ul>
+				<li class="fragment">Shadow DOM</li>
+				<li class="fragment">HTML Templates</li>
+				<li class="fragment">Custom Elements</li>
+			</ul>
+		</section>
+
+		<section>
+			<p>A <b>Shadow DOM</b> is an encapsulated DOM tree</p>
+			<aside class="notes">
+				<ul>
+					<li>Styles from the host document</li>
+					<li>document.querySelector()</li>
+					<li>children are hidden</li>
+				</ul>
+			</aside>
+		</section>
+
+		<section>
+			<p>A Shadow DOM is created programmatically</p>
+
+			<pre><code data-trim data-noescape>
+				const node = document.querySelector('.myNode');
+				const child = document.createElement('div');
+				node.attachShadow({ mode: 'open' });
+				node.shadowRoot.appendChild(child);
+			</code></pre>
+		</section>
+
+		<section>
+			<p><b>HTML Templates</b> define the structure of a DOM node and it's children</p>
+
+			<ul>
+				<li class="fragment">&lt;template&gt;</li>
+				<li class="fragment">&lt;slot&gt;</li>
+			</ul>
+		</section>
+
+		<section>
+			<p>A basic template</p>
+			<pre><code data-trim data-noescape>
+				&lt;template name="confirm-dialog">
+					&lt;div>&lt;slot name="title-slot">Confirm&lt;/slot>&lt;/div>
+					&lt;div>
+						&lt;slot>&lt;/slot>
+					&lt;/div>
+					&lt;div>
+						&lt;button>Ok&lt;/button>
+					&lt;/div>
+				&lt;/template>
+			</code></pre>
+			<aside class="notes">
+				<ul>
+					<li>The template is not rendered</li>
+					<li>Slots are like placeholders</li>
+				</ul>
+			</aside>
+		</section>
+
+		<section>
+			<h3>How do shadow DOM and templates work together?</h3>
+			<aside class="notes">
+				The Shadow DOM uses its children to slot in DOM elements into templates.
+				Templates are mostly valuable when using a shadowRoot
+				-- show shadowdom.html example
+			</aside>
+		</section>
+
+		<section>
+			<p><b>Custom Elements</b> define named HTML elements and behaviors</p>
+
+			<ul>
+				<li class="fragment">Autonomous custom element</li>
+				<li class="fragment">Custom built-in element</li>
+			</ul>
+		</section>
+
+		<section>
+			<p><b>Autonomous Custom Elements</b> are standalone elements</p>
+
+			<pre><code data-trim data-noescape>
+				&lt;my-custom-element someAttribute="value">
+					<p>Content!</p>
+				&lt;/my-custom-element>
+			</code></pre>
+		</section>
+
+		<section>
+			<p><b>Custom build-in elements</b> extends the functionality of a built-in element</p>
+
+			<pre><code data-trim data-noescape>
+				&lt;p is="my-custom-element">&lt;/p>
+			</code></pre>
+		</section>
+
+		<section>
+			<h3>Creating a Custom Element</h3>
+		</section>
+
+		<section>
+			<pre><code data-trim data-noescape>
+				class MyCustomElement extends HtmlElement {
+					constructor() {
+						// initialize the structure
+					}
+				}
+			</code></pre>
+		</section>
+
+		<section>
+			<p>All Custom Elements have a standard lifecycle</p>
+		</section>
+
+		<section>
+			<p><b>connectedCallback()</b> is called when the element is connected to the DOM</p>
+
+			<p class="fragment">Use it to programmatically alter and set-up the element</p>
+		</section>
+
+		<section>
+			<p><b>disconnectedCallback()</b> is called when the element is removed from the DOM</p>
+			<p class="fragment">Use it to destroy and deallocate</p>
+		</section>
+
+		<section>
+			<p><b>adoptedCallback()</b> is called when the element is moved between documents</p>
+			<p class="fragment">Use it to marvel at the wonders of the DOM</p>
+		</section>
+
+		<section>
+			<h3>Custom Attributes</h3>
+		</section>
+
+		<section>
+			<pre><code data-trim data-noescape>
+				class MyCustomElement extends HtmlElement {
+					static get observedAttributes() {
+						return [ 'attributeName' ]
+					}
+
+					attributeChangedCallback(name, oldValue, newValue) {
+						// handle attributes
+					}
+				}
+			</code></pre>
+		</section>
+
+		<section>
+			<h3>Web Component Frameworks</h3>
+		</section>
+
+		<section>
+			<p>There are <b>two</b> types of Web Component frameworks</p>
+			<br>
+
+			<ul>
+				<li>Pure <span class="fragment">(Svelte, Stencil, Polymer)</span></li>
+				<li>Framework Wrapped <span class="fragment">(Angular, Dojo, Vue)</span></li>
+			</ul>
+			<aside class="notes">
+				<ul>
+					<li>Pure frameworks aim to produce a lightweight, native Custom Element (e.g. svelte)</li>
+					<li>Framework Wrapped provides a custom element wrapping a Framework (e.g. Dojo, Angular)</li>
+				</ul>
+			</aside>
+		</section>
+
+		<section>
+			<h4>Web Components Benchmark</h4>
+
+			<p><a href="https://vogloblinsky.github.io/web-components-benchmark/">https://vogloblinsky.github.io/web-components-benchmark/</a></p>
+		</section>
+
+		<section>
+			<h2>Questions?</h2>
+		</section>
+	</div>
+</div>
+
+<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
+<script src="node_modules/reveal.js/js/reveal.js"></script>
+<script src="src/index.js"></script>
+
+</body>
+</html>

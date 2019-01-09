@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Template & slot</title>
+</head>
+<body>
+<template id="confirm-dialog">
+	<style>
+		.root {
+			width: 400px;
+		}
+		header {
+			background: #50f0ff;
+			color: black;
+			font-weight: bold;
+			padding: 10px;
+		}
+	</style>
+	<div class="root">
+		<header><slot name="title-slot">Confirm</slot></header>
+		<div>
+			<slot></slot>
+		</div>
+		<div>
+			<button>Ok</button>
+		</div>
+	</div>
+</template>
+<div id="container"></div>
+<script>
+	const template = document.getElementById('confirm-dialog');
+	const node = template.content.cloneNode(true);
+	const shadow = container.attachShadow({ mode: 'open' });
+	shadow.appendChild(node);
+
+	const title = document.createElement('p');
+	title.textContent = 'Title';
+	title.slot = 'title-slot';
+
+	const text = document.createTextNode('Hello World!');
+	text.slot = '';
+
+	container.appendChild(title);
+	container.appendChild(text);
+</script>
+</body>
+</html>
