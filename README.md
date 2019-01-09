@@ -1,26 +1,12 @@
-# Presentation Base
+# Web Components: Custom Elements
 
-Created by Paul Shannon [@developerPaul](https://twitter.com/developerPaul).
+Created by Paul Shannon [@developerPaul](https://twitter.com/developerPaul) for [Phoenix TypeScript](https://www.meetup.com/Phoenix-TypeScript/events/257212578/)
 
 ## Quick Start
 
 * `npm install`
 * `grunt serve`
 * open [Presentation @ http://localhost:8765](http://localhost:8765)
-
-## Usage
-
-* Press `s` to open speaker notes
-
-## Dependencies
-
-* [Node.js & npm](https://nodejs.org/download/)
-* [Grunt](http://gruntjs.com/getting-started)
-* [Bower](http://bower.io/#install-bower)
-
-```
-npm install -g grunt-cli
-```
 
 ## Attribution and License 
 
