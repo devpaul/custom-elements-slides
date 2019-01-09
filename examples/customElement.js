@@ -30,12 +30,16 @@ class CustomElement extends HTMLElement {
 		this.shadowRoot.appendChild(template.content.cloneNode(true));
 	}
 
-	static get observedAttributes() { return ['button-text']; }
+	static get observedAttributes() { return ['buttonText']; }
 
 	attributeChangedCallback(attributeName, oldValue, newValue) {
-		if (attributeName === 'button-text') {
-			this.shadowRoot.querySelector('button').textContent = newValue;
+		if (attributeName === 'buttonText') {
+			this.buttonThing = newValue;
 		}
+	}
+
+	set buttonThing(value) {
+		this.shadowRoot.querySelector('button').textContent = value;
 	}
 
 	connectedCallback() {
